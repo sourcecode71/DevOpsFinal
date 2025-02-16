@@ -10,4 +10,17 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'DevOpsFinal';
+  public countResult: number = 0;
+
+  public increaseNumber() {
+    this.countResult++;
+  }
+
+  public decreaseNumber() {
+    this.countResult--;
+  }
+
+  public resetResult() {
+    this.countResult = 0;
+  }
 }
