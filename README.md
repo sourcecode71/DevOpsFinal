@@ -1,31 +1,50 @@
-# Angular 18 Counter App - DevOps Final Exam
-
-## 📌 Project Overview
-This is an **Angular 18** application created as part of the **DevOps Final Exam**. The app features a **counter** functionality and displays my name on the page. This app demonstrates the basic usage of Angular components, binding, and local development setup.
+Here’s the **README.md** file in proper Markdown format:  
 
 ---
 
-## 📌 Assignment Requirements
-- **Create a Frontend Application**: This app is developed using **Angular 18**.
-- **Modify the Application**: The page will display a counter with a button to increment and decrement, and it will show **my name**.
-- **Run Locally**: The app runs locally in the browser and can be accessed at **http://localhost:4200/**.
-- **Push to GitHub**: The code is pushed to the **`feature/angular-counter`** branch of the base repository.
+# 🚀 Docker Development - `feature/dockerize-application`
+
+This branch contains Docker configurations to containerize the Angular application **DevOPsFinal**.
+
+## 📌 Steps to Run Locally
+
+### 1️⃣ Build the Docker Image  
+```sh
+docker build -t mostafiz51/devops-final:latest .
+```
+
+### 2️⃣ Run the Container  
+```sh
+docker run -d -p 8080:80 mostafiz51/devops-final:latest
+```
+- The application will be available at **http://localhost:8080**.
+
+### 3️⃣ Push to Docker Hub  
+```sh
+docker login  
+docker push mostafiz51/devops-final:latest
+```
 
 ---
 
-## 📌 Technology Stack
-- **Frontend**: Angular 18
-- **Language**: TypeScript, HTML, CSS
-- **Package Manager**: npm
-- **Version Control**: Git & GitHub
+## 🛠 Docker Compose  
+A `docker-compose.yml` file is included for easy deployment:  
+
+### ➤ Run using Docker Compose  
+```sh
+docker-compose up -d
+```
+- The application will be available at **http://localhost:9097**.
 
 ---
 
-## 📌 Setup Instructions
+## 📌 Tech Stack  
+- **Node.js** (for building the app)  
+- **Nginx** (for serving the app)  
+- **Docker & Docker Compose** (for containerization)  
 
-### 1️⃣ Clone the Repository
-Clone the base repository to your local machine:
+---
 
-```bash
-git clone https://github.com/sourcecode71/DevOpsFinal.git
-cd DevOpsFinal
+✅ **Next Step:** Push the updates to the base repo. 🚀  
+
+Would you like any modifications or additional details? 😊
