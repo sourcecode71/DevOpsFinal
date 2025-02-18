@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  angular-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mostafiz51/devops-final:latest  # Correct image name
+    ports:
+      - "9097:80"
+    restart: always
