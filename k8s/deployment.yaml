@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devopsfinal-app
+spec:
+  selector:
+    matchLabels:
+      app: devopsfinal-app
+  template:
+    metadata:
+      labels:
+        app: devopsfinal-app
+    spec:
+      containers:
+        - name: devopsfinal-app
+          image: mostafiz51/devops-final:latest  # Using your image
+          ports:
+            - containerPort: 9098
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+
