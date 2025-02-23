@@ -1,0 +1,116 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKERHUB_USERNAME = credentials('dockerhub-usr')  // Jenkins credential ID
+        DOCKERHUB_PASSWORD = credentials('dockerhub-pswd')  // Jenkins credential ID
+        IMAGE_NAME = "mostafiz51/devops-final:latest"
+        REPO_URL = "https://github.com/sourcecode71/DevOpsFinal.git"  
+        BRANCH_NAME = "main"
+        APP_PATH = "/var/www/app"  
+        GOOGLE_CHAT_WEBHOOK = "https://chat.googleapis.com/v1/spaces/AAAAHPLlxr8/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=dYvSrT4Ya-LmLq_cf3BfLoPb_hpOxHTFJLTTK2fOGmE"  
+    }
+
+    triggers {
+        genericTrigger(
+            genericVariables: [
+                [key: "action", value: '$.object_attributes.action'],
+                [key: "source_branch", value: '$.object_attributes.source_branch'],
+                [key: "target_branch", value: '$.object_attributes.target_branch']
+            ],
+            token: "secret",  
+            printContributedVariables: true,
+            printPostContent: true
+        )
+    }
+
+    stages {
+        stage('Checkout Code') {
+            when {
+                expression { env.source_branch == "dev" && env.target_branch == "main" && env.action == "merge" }
+            }
+            steps {
+                echo "Merging from dev to main, triggering pipeline..."
+                git branch: "${BRANCH_NAME}", url: "${REPO_URL}"
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def BUILD_TAG = "${BUILD_NUMBER}-${new Date().format('dd-MM-HH-mm')}"
+                    env.IMAGE_TAG = "${IMAGE_NAME}:${BUILD_TAG}"
+                    echo "Building Docker Image: ${env.IMAGE_TAG}"
+                    
+                    sh """
+                        docker build -t ${env.IMAGE_TAG} .
+                    """
+                }
+            }
+        }
+
+        stage('Push Docker Image to DockerHub') {
+            steps {
+                script {
+                    echo "Pushing Docker Image to DockerHub"
+                    sh """
+                        echo ${DOCKERHUB_PASSWORD} | docker login -u ${DOCKERHUB_USERNAME} --password-stdin
+                        docker push ${env.IMAGE_TAG}
+                        docker logout
+                    """
+                }
+            }
+        }
+
+        stage('Update Docker Compose File') {
+            steps {
+                script {
+                    echo "Updating Docker Compose file..."
+                    sh """
+                        sed -i 's|image: ${IMAGE_NAME}:.*|image: ${env.IMAGE_TAG}|' ${APP_PATH}/docker-compose.yml
+                    """
+                }
+            }
+        }
+
+        stage('Restart Application with New Image') {
+            steps {
+                script {
+                    echo "Restarting the application..."
+                    sh """
+                        cd ${APP_PATH}
+                        docker-compose down
+                        docker-compose up -d
+                    """
+                }
+            }
+        }
+
+        stage('Send Google Chat Notification') {
+            steps {
+                script {
+                    def MESSAGE = """{
+                        "text": "🚀 Application has been updated!\\n
+                        🖼 Image: ${env.IMAGE_TAG}"
+                    }"""
+
+                    sh """
+                        curl -X POST -H "Content-Type: application/json" -d '${MESSAGE}' ${GOOGLE_CHAT_WEBHOOK}
+                    """
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "Pipeline executed successfully!"
+        }
+        failure {
+            echo "Pipeline execution failed!"
+        }
+        always {
+            cleanWs()
+        }
+    }
+}
