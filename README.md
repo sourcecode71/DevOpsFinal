@@ -1,7 +1,5 @@
 Here’s the **README.md** file in proper Markdown format:  
-
 ---
-
 # 🚀 Docker Development - `feature/dockerize-application`
 
 This branch contains Docker configurations to containerize the Angular application **DevOPsFinal**.
