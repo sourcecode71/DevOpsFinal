@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USERNAME = credentials('dockerhub-usr')  // Jenkins credential ID
-        DOCKERHUB_PASSWORD = credentials('dockerhub-pswd')  // Jenkins credential ID
+        DOCKERHUB_USERNAME = credentials('dockerhub-usr')  
+        DOCKERHUB_PASSWORD = credentials('dockerhub-pswd') 
         IMAGE_NAME = "mostafiz51/devops-final:latest"
         REPO_URL = "https://github.com/sourcecode71/DevOpsFinal.git"  
         BRANCH_NAME = "main"
