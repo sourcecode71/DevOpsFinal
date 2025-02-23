@@ -33,9 +33,7 @@ A `docker-compose.yml` file is included for easy deployment:
 docker-compose up -d
 ```
 - The application will be available at **http://localhost:9097**.
-
 ---
-
 ## 📌 Tech Stack  
 - **Node.js** (for building the app)  
 - **Nginx** (for serving the app)  
