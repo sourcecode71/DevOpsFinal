@@ -5,7 +5,6 @@ Here’s the **README.md** file in proper Markdown format:
 This branch contains Docker configurations to containerize the Angular application **DevOPsFinal**.
 
 ## 📌 Steps to Run Locally
-
 ### 1️⃣ Build the Docker Image  
 ```sh
 docker build -t mostafiz51/devops-final:latest .
