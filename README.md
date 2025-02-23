@@ -24,7 +24,6 @@ docker push mostafiz51/devops-final:latest
 ```
 
 ---
-
 ## 🛠 Docker Compose  
 A `docker-compose.yml` file is included for easy deployment:  
 
