@@ -10,7 +10,6 @@ This branch contains Docker configurations to containerize the Angular applicati
 ```sh
 docker build -t mostafiz51/devops-final:latest .
 ```
-
 ### 2️⃣ Run the Container  
 ```sh
 docker run -d -p 8080:80 mostafiz51/devops-final:latest
